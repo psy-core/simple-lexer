@@ -3,9 +3,33 @@ use simple_lexer::{DFAState, SimpleToken, SimpleTokenReader, Token, TokenReader,
 fn main() {
     let mut lexer = SimpleLexer::new();
 
-    let script = String::from("int age = 45;");
+    let mut script = String::from("int age = 45;");
     println!("parse :{}", script);
     let mut token_reader = lexer.tokenize(script);
+    token_reader.dump();
+
+    //测试inta的解析
+    script = String::from("inta age = 45;");
+    println!("\nparse :{}", script);
+    token_reader = lexer.tokenize(script);
+    token_reader.dump();
+
+    //测试in的解析
+    script = String::from("in age = 45;");
+    println!("\nparse :{}", script);
+    token_reader = lexer.tokenize(script);
+    token_reader.dump();
+
+    //测试>=的解析
+    script = String::from("age >= 45;");
+    println!("\nparse :{}", script);
+    token_reader = lexer.tokenize(script);
+    token_reader.dump();
+
+    //测试>的解析
+    script = String::from("age > 45;");
+    println!("\nparse :{}", script);
+    token_reader = lexer.tokenize(script);
     token_reader.dump();
 }
 
@@ -90,6 +114,7 @@ impl SimpleLexer {
     }
 
     fn tokenize(&mut self, code: String) -> SimpleTokenReader {
+        self.tokens = Vec::new();
         let mut state = DFAState::Initial;
         for c in code.chars() {
             // println!("{}", c);
